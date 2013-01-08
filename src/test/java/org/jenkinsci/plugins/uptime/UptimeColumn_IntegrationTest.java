@@ -7,6 +7,10 @@ import hudson.tasks.Shell;
 import org.apache.commons.io.FileUtils;
 import org.jvnet.hudson.test.HudsonTestCase;
 
+/**
+ * 
+ * @author Chris Mair
+ */
 public class UptimeColumn_IntegrationTest extends HudsonTestCase {
 
     public void test1() throws Exception {

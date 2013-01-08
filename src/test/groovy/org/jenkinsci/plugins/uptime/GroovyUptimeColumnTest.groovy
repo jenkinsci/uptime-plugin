@@ -4,6 +4,10 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+/**
+ * 
+ * @author Chris Mair
+ */
 class GroovyUptimeColumnTest {
 
 	@Test

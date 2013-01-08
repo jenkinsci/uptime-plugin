@@ -3,3 +3,7 @@
 .settings/
 target/
 work/
+/install-fast
+/run-fast
+/go.bat
+/RunJenkins.bat

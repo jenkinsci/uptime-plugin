@@ -28,9 +28,12 @@ import hudson.model.Descriptor;
 import hudson.model.Job;
 import hudson.model.Run;
 import org.jenkinsci.plugins.uptime.Messages;
+
+import hudson.util.RunList;
 import hudson.views.ListViewColumn;
 
 import java.text.DateFormat;
+import java.util.Iterator;
 
 import net.sf.json.JSONObject;
 
@@ -38,40 +41,51 @@ import org.jenkinsci.plugins.uptime.UptimeColumn;
 import org.kohsuke.stapler.StaplerRequest;
 
 /**
- * View column that shows the last failure version by parsing it out of the build description or using the build number.
- * It also shows the date it failed.
+ * View column that shows 
  * 
- * @author Adam Purkiss
+ * @author Chris Mair
  */
 public class UptimeColumn extends ListViewColumn {
 
     public String getShortName(Job job) {
         Run lastFailedBuild = job.getLastFailedBuild();
         StringBuilder stringBuilder = new StringBuilder();
-
-        if (lastFailedBuild != null) {
-            String failedDate = DateFormat.getDateTimeInstance().format(lastFailedBuild.getTimestamp().getTime());
-            stringBuilder.append(failedDate);
-            String tempDescription = lastFailedBuild.getDescription();
-            int index = -1;
-            if (tempDescription != null) {
-                index = tempDescription.indexOf("[version]");
-            }
-            stringBuilder.append(" (<a href=\"");
-            stringBuilder.append(lastFailedBuild.getUrl());
-            stringBuilder.append("\">");
-            if (index != -1) {
-                stringBuilder.append(tempDescription.substring(index + 9).trim());
-            } else {
-                stringBuilder.append(Integer.toString(lastFailedBuild.getNumber()));
-            }
-            stringBuilder.append("</a>)");
-            
-            stringBuilder.append("(*))");
-
-        } else {
-            stringBuilder.append("N/A (*)");
-        }
+        System.out.println("lastFailedBuild=" + lastFailedBuild);
+        
+        RunList builds = job.getBuilds();
+        System.out.println("builds=" + builds);
+        
+        Iterator<Run> iterator = builds.iterator();
+        while (iterator.hasNext()) {
+			Run run = (Run) iterator.next();
+			System.out.println("Run: " + run + " time=" + run.getTime() + " result=" + run.getResult() + " duration=" + run.getDuration());
+		}
+        
+        stringBuilder.append("Uptime");
+        
+//        if (lastFailedBuild != null) {
+//            String failedDate = DateFormat.getDateTimeInstance().format(lastFailedBuild.getTimestamp().getTime());
+//            stringBuilder.append(failedDate);
+//            String tempDescription = lastFailedBuild.getDescription();
+//            int index = -1;
+//            if (tempDescription != null) {
+//                index = tempDescription.indexOf("[version]");
+//            }
+//            stringBuilder.append(" (<a href=\"");
+//            stringBuilder.append(lastFailedBuild.getUrl());
+//            stringBuilder.append("\">");
+//            if (index != -1) {
+//                stringBuilder.append(tempDescription.substring(index + 9).trim());
+//            } else {
+//                stringBuilder.append(Integer.toString(lastFailedBuild.getNumber()));
+//            }
+//            stringBuilder.append("</a>)");
+//            
+//            stringBuilder.append("(*))");
+//
+//        } else {
+//            stringBuilder.append("N/A (*)");
+//        }
 
         return stringBuilder.toString();
     }
