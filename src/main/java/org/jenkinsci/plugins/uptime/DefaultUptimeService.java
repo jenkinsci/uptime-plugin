@@ -16,15 +16,52 @@ public class DefaultUptimeService implements UptimeService {
 	@Override
 	public BigDecimal getUptimePercentage(Iterator<Run> iterator) {
 
-		boolean failed = false;
+		long timeNow = getTimeNow();
+		long startTime = 0L;
+		long totalFailedMillis = 0L;
+		long startFailedTime = 0L;
+		
+		boolean failing = false;
         while (iterator.hasNext()) {
-			Run run = (Run) iterator.next();
-			System.out.println("Run: " + run + " time=" + run.getTime() + " result=" + run.getResult() + " duration=" + run.getDuration());
-			failed = run.getResult() == Result.FAILURE;
+			Run<?,?> run = (Run<?,?>) iterator.next();
+			long runStartTime = run.getTimestamp().getTimeInMillis();
+			System.out.println("Run: " + run + " time=" + run.getTime() + " timeInMillis=" + run.getTimeInMillis() + " result=" + run.getResult());
+			if (startTime == 0L) {
+				startTime = runStartTime;
+			}
+			
+			if (isFailed(run)) {
+				if (!failing) {
+					startFailedTime = runStartTime;
+				}
+			}
+			else {	// SUCCESS
+				if (failing) {
+					totalFailedMillis += runStartTime - startFailedTime;
+				}
+			}
+			
+			failing = isFailed(run);
 		}
 
-		BigDecimal percentage = failed ? new BigDecimal("0.0") : new BigDecimal("1.0");
-		return percentage;
+		if (failing) {
+			totalFailedMillis += timeNow - startFailedTime;
+		}
+
+        System.out.println("timeNow=" + timeNow + "  startTime=" + startTime);
+        long totalMinutes = timeNow - startTime;
+        BigDecimal failedPercentage = BigDecimal.valueOf(totalFailedMillis).setScale(2).divide(BigDecimal.valueOf(totalMinutes), BigDecimal.ROUND_HALF_DOWN);
+        System.out.println("failedPercentage=" + failedPercentage + " totalFailedMinutes" + totalFailedMillis + "  totalMinutes=" + totalMinutes);
+		return new BigDecimal("1.00").subtract(failedPercentage);
+	}
+	
+	private boolean isFailed(Run<?,?> run) {
+		return run.getResult() == Result.FAILURE;
 	}
 
+	// Enable test to override and specify exact time
+	protected long getTimeNow() {
+		return System.currentTimeMillis();
+	}
+	
 }

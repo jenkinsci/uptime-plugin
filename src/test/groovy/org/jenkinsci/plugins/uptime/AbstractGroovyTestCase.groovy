@@ -7,15 +7,12 @@ import org.junit.rules.TestName;
 
 class AbstractGroovyTestCase {
 
+	protected static final String FORMAT = 'mm/dd/yy HH:mm'
+	
 	@Rule public TestName testName = new TestName();
 
 	private long startTime
 	
-	/**
-	 * Write the specified message out to the log. Application-specific subclasses
-	 * can override with application-specific logging behavior, if desired.
-	 * @param message the message to write
-	 */
 	protected void log(Object message) {
 		println getName() + ": " + message
 	}
