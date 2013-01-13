@@ -27,9 +27,9 @@ class DefaultUptimeServiceTest extends AbstractGroovyTestCase {
 	}
 	
 	@Test
-	void getUptimePercentage_NoBuilds_100_Percent() {
+	void getUptimePercentage_NoBuilds_Null() {
 		Iterator<Run> runs = [].iterator()
-		assert service.getUptimePercentage(runs) == 1.0
+		assert service.getUptimePercentage(runs) == null
 	}
 
 	@Test

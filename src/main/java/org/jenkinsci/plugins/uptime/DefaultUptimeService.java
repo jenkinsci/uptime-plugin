@@ -16,6 +16,10 @@ public class DefaultUptimeService implements UptimeService {
 	@Override
 	public BigDecimal getUptimePercentage(Iterator<Run> iterator) {
 
+		if (!iterator.hasNext()) {
+			return null;
+		}
+		
 		long timeNow = getTimeNow();
 		long startTime = 0L;
 		long totalFailedMillis = 0L;
@@ -48,10 +52,8 @@ public class DefaultUptimeService implements UptimeService {
 			totalFailedMillis += timeNow - startFailedTime;
 		}
 
-        System.out.println("timeNow=" + timeNow + "  startTime=" + startTime);
         long totalMinutes = timeNow - startTime;
         BigDecimal failedPercentage = BigDecimal.valueOf(totalFailedMillis).setScale(2).divide(BigDecimal.valueOf(totalMinutes), BigDecimal.ROUND_HALF_DOWN);
-        System.out.println("failedPercentage=" + failedPercentage + " totalFailedMinutes" + totalFailedMillis + "  totalMinutes=" + totalMinutes);
 		return new BigDecimal("1.00").subtract(failedPercentage);
 	}
 	
