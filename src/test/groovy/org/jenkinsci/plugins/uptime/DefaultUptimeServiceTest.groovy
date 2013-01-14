@@ -17,7 +17,6 @@ import org.mockito.Mockito;
 class DefaultUptimeServiceTest extends AbstractGroovyTestCase {
 
 	private static final long TIME_NOW = System.currentTimeMillis()
-//	private static final long T00_00 = Date.parse(FORMAT, '1/10/2013 00:00').time
 	
 	private DefaultUptimeService service = new DefaultUptimeService() {
 		@Override
@@ -100,16 +99,6 @@ class DefaultUptimeServiceTest extends AbstractGroovyTestCase {
 		return TIME_NOW - hours(numHours)
 	}
 
-	private static final MS_PER_MINUTE = 1000 * 60
-	
-	private long minutes(int numMinutes) {
-		return MS_PER_MINUTE * numMinutes
-	}
-	
-	private long hours(int numHours) {
-		return MS_PER_MINUTE * 60 * numHours
-	}
-	
 	private Run createBuild(Result result, long startTime) {
 		AbstractBuild build = Mockito.mock(AbstractBuild.class)
 		Mockito.when(build.getResult()).thenReturn(result)
