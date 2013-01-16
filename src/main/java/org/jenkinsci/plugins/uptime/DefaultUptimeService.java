@@ -4,6 +4,7 @@ import hudson.model.Result;
 import hudson.model.Run;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Iterator;
 
 /**
@@ -14,7 +15,7 @@ import java.util.Iterator;
 public class DefaultUptimeService implements UptimeService {
 
 	@Override
-	public BigDecimal getUptimePercentage(Iterator<Run> iterator) {
+	public BigDecimal getUptimePercentage(Iterator<Run<?,?>> iterator) {
 
 		if (!iterator.hasNext()) {
 			return null;
@@ -29,7 +30,7 @@ public class DefaultUptimeService implements UptimeService {
         while (iterator.hasNext()) {
 			Run<?,?> run = (Run<?,?>) iterator.next();
 			long runStartTime = run.getTimestamp().getTimeInMillis();
-			System.out.println("Run: " + run + " time=" + run.getTime() + " timeInMillis=" + run.getTimeInMillis() + " result=" + run.getResult());
+			System.out.println("Run: " + run + " runStartTime=" + new Date(runStartTime) + " result=" + run.getResult());
 			if (startTime == 0L) {
 				startTime = runStartTime;
 			}
@@ -53,8 +54,12 @@ public class DefaultUptimeService implements UptimeService {
 		}
 
         long totalMinutes = timeNow - startTime;
-        BigDecimal failedPercentage = BigDecimal.valueOf(totalFailedMillis).setScale(2).divide(BigDecimal.valueOf(totalMinutes), BigDecimal.ROUND_HALF_DOWN);
+        BigDecimal failedPercentage = calculatePercentage(totalFailedMillis, totalMinutes); 
 		return new BigDecimal("1.00").subtract(failedPercentage);
+	}
+
+	private BigDecimal calculatePercentage(long value, long total) {
+		return BigDecimal.valueOf(value).setScale(2).divide(BigDecimal.valueOf(total), BigDecimal.ROUND_HALF_DOWN);
 	}
 	
 	private boolean isFailed(Run<?,?> run) {

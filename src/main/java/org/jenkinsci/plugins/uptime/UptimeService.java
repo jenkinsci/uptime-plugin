@@ -12,5 +12,5 @@ import java.util.Iterator;
  */
 public interface UptimeService {
 
-	BigDecimal getUptimePercentage(Iterator<Run> iterator);
+	BigDecimal getUptimePercentage(Iterator<Run<?,?>> iterator);
 }
