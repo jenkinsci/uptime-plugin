@@ -22,35 +22,22 @@ public class DefaultUptimeService implements UptimeService {
 		}
 		
 		long timeNow = getTimeNow();
+		long previousTime = timeNow;
 		long startTime = 0L;
 		long totalFailedMillis = 0L;
-		long startFailedTime = 0L;
 		
-		boolean failing = false;
         while (iterator.hasNext()) {
 			Run<?,?> run = (Run<?,?>) iterator.next();
 			long runStartTime = run.getTimestamp().getTimeInMillis();
 			System.out.println("Run: " + run + " runStartTime=" + new Date(runStartTime) + " result=" + run.getResult());
-			if (startTime == 0L) {
-				startTime = runStartTime;
-			}
+
+			// Always overwrite with oldest build so far
+			startTime = runStartTime;
 			
 			if (isFailed(run)) {
-				if (!failing) {
-					startFailedTime = runStartTime;
-				}
+				totalFailedMillis += previousTime - runStartTime;
 			}
-			else {	// SUCCESS
-				if (failing) {
-					totalFailedMillis += runStartTime - startFailedTime;
-				}
-			}
-			
-			failing = isFailed(run);
-		}
-
-		if (failing) {
-			totalFailedMillis += timeNow - startFailedTime;
+			previousTime = runStartTime;
 		}
 
         long totalMinutes = timeNow - startTime;

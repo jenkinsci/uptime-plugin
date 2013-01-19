@@ -32,12 +32,12 @@ import org.jenkinsci.plugins.uptime.Messages;
 import hudson.util.RunList;
 import hudson.views.ListViewColumn;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.util.Iterator;
 
 import net.sf.json.JSONObject;
 
-import org.jenkinsci.plugins.uptime.UptimeColumn;
 import org.kohsuke.stapler.StaplerRequest;
 
 /**
@@ -47,6 +47,8 @@ import org.kohsuke.stapler.StaplerRequest;
  */
 public class UptimeColumn extends ListViewColumn {
 
+	private UptimeService uptimeService = new DefaultUptimeService();
+	
     public String getShortName(Job job) {
         Run lastFailedBuild = job.getLastFailedBuild();
         StringBuilder stringBuilder = new StringBuilder();
@@ -55,38 +57,18 @@ public class UptimeColumn extends ListViewColumn {
         RunList builds = job.getBuilds();
         System.out.println("builds=" + builds);
         
-        Iterator<Run> iterator = builds.iterator();
-        while (iterator.hasNext()) {
-			Run run = (Run) iterator.next();
-			System.out.println("Run: " + run + " time=" + run.getTime() + " result=" + run.getResult() + " duration=" + run.getDuration());
-		}
+        Iterator<Run<?,?>> iterator = builds.iterator();
         
-        stringBuilder.append("Uptime");
+        BigDecimal uptimePercentage = uptimeService.getUptimePercentage(iterator); 
         
-//        if (lastFailedBuild != null) {
-//            String failedDate = DateFormat.getDateTimeInstance().format(lastFailedBuild.getTimestamp().getTime());
-//            stringBuilder.append(failedDate);
-//            String tempDescription = lastFailedBuild.getDescription();
-//            int index = -1;
-//            if (tempDescription != null) {
-//                index = tempDescription.indexOf("[version]");
-//            }
-//            stringBuilder.append(" (<a href=\"");
-//            stringBuilder.append(lastFailedBuild.getUrl());
-//            stringBuilder.append("\">");
-//            if (index != -1) {
-//                stringBuilder.append(tempDescription.substring(index + 9).trim());
-//            } else {
-//                stringBuilder.append(Integer.toString(lastFailedBuild.getNumber()));
-//            }
-//            stringBuilder.append("</a>)");
-//            
-//            stringBuilder.append("(*))");
-//
-//        } else {
-//            stringBuilder.append("N/A (*)");
-//        }
-
+//        while (iterator.hasNext()) {
+//			Run run = (Run) iterator.next();
+//			System.out.println("Run: " + run + " time=" + run.getTime() + " result=" + run.getResult() + " duration=" + run.getDuration());
+//		}
+        
+        System.out.println("Uptime=" + uptimePercentage);
+        stringBuilder.append("Uptime: " + (uptimePercentage == null ? "-" : uptimePercentage));
+        
         return stringBuilder.toString();
     }
 
