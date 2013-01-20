@@ -27,13 +27,10 @@ import hudson.Extension;
 import hudson.model.Descriptor;
 import hudson.model.Job;
 import hudson.model.Run;
-import org.jenkinsci.plugins.uptime.Messages;
-
 import hudson.util.RunList;
 import hudson.views.ListViewColumn;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.util.Iterator;
 
 import net.sf.json.JSONObject;
@@ -50,26 +47,21 @@ public class UptimeColumn extends ListViewColumn {
 	private UptimeService uptimeService = new DefaultUptimeService();
 	
     public String getShortName(Job job) {
-        Run lastFailedBuild = job.getLastFailedBuild();
-        StringBuilder stringBuilder = new StringBuilder();
-        System.out.println("lastFailedBuild=" + lastFailedBuild);
-        
-        RunList builds = job.getBuilds();
+        RunList<Run<?, ?>> builds = job.getBuilds();
         System.out.println("builds=" + builds);
         
         Iterator<Run<?,?>> iterator = builds.iterator();
         
         BigDecimal uptimePercentage = uptimeService.getUptimePercentage(iterator); 
         
-//        while (iterator.hasNext()) {
-//			Run run = (Run) iterator.next();
-//			System.out.println("Run: " + run + " time=" + run.getTime() + " result=" + run.getResult() + " duration=" + run.getDuration());
-//		}
-        
-        System.out.println("Uptime=" + uptimePercentage);
-        stringBuilder.append("Uptime: " + (uptimePercentage == null ? "-" : uptimePercentage));
-        
-        return stringBuilder.toString();
+        return percentageString(uptimePercentage);
+    }
+    
+    protected String percentageString(BigDecimal percentage) {
+    	if (percentage == null) {
+    		return Messages.NoBuilds_PercentageString();
+    	}
+    	return percentage.movePointRight(2).setScale(1, BigDecimal.ROUND_DOWN).toString() + "%";
     }
 
     @Extension
