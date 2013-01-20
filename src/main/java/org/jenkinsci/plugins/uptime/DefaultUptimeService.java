@@ -14,6 +14,12 @@ import java.util.Iterator;
  */
 public class DefaultUptimeService implements UptimeService {
 
+	/**
+	 * Calculate the fraction of time that the job (represented by the set of Runs) has been successful
+	 * over the total time since its first Run (build). The times are measured in a granularity of milliseconds.
+	 * 
+	 * @return a BigDecimal representing the percentage, with a scale of 3 (i.e., 0.000 to 1.000)
+	 */
 	@Override
 	public BigDecimal getUptimePercentage(Iterator<Run<?,?>> iterator) {
 
@@ -42,11 +48,11 @@ public class DefaultUptimeService implements UptimeService {
 
         long totalMinutes = timeNow - startTime;
         BigDecimal failedPercentage = calculatePercentage(totalFailedMillis, totalMinutes); 
-		return new BigDecimal("1.00").subtract(failedPercentage);
+		return new BigDecimal("1.000").subtract(failedPercentage);
 	}
 
 	private BigDecimal calculatePercentage(long value, long total) {
-		return BigDecimal.valueOf(value).setScale(2).divide(BigDecimal.valueOf(total), BigDecimal.ROUND_HALF_DOWN);
+		return BigDecimal.valueOf(value).setScale(3).divide(BigDecimal.valueOf(total), BigDecimal.ROUND_HALF_DOWN);
 	}
 	
 	private boolean isFailed(Run<?,?> run) {
