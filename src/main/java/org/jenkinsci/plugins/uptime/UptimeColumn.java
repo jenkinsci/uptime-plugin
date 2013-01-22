@@ -45,11 +45,10 @@ import org.kohsuke.stapler.StaplerRequest;
  */
 public class UptimeColumn extends ListViewColumn {
 
-	private UptimeService uptimeService = new DefaultUptimeService();
+	protected UptimeService uptimeService = new DefaultUptimeService();
 	
     public String getShortName(Job job) {
         RunList<Run<?, ?>> builds = job.getBuilds();
-        System.out.println("builds=" + builds);
         
         Iterator<Run<?,?>> iterator = builds.iterator();
         
