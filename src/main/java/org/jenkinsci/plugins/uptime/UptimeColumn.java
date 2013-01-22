@@ -38,7 +38,8 @@ import net.sf.json.JSONObject;
 import org.kohsuke.stapler.StaplerRequest;
 
 /**
- * View column that shows 
+ * List View column that shows the percentage of time that a job has been building successfully
+ * since its first build. 
  * 
  * @author Chris Mair
  */
