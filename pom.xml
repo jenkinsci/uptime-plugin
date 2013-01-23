@@ -1,9 +1,4 @@
 <?xml version="1.0"?>
-
-<!--
-  LICENSE
--->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
@@ -19,28 +14,27 @@
   <packaging>hpi</packaging>
 
   <name>Uptime</name>
-  <url>http://wiki.jenkins-ci.org/display/JENKINS/Last+Failure+Version+Column+Plugin</url>
+  <url>TBD</url>
 
   <licenses>
     <license>
       <name>The MIT license</name>
-      <url>https://github.com/jenkinsci/lastfailureversioncolumn-plugin/raw/master/LICENSE.txt</url>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
 
   <developers>
     <developer>
-      <id>ajpurkiss</id>
-      <name>Adam Purkiss</name>
-      <email>ajpurkiss@hotmail.com</email>
+      <id>chrismair</id>
+      <name>Chris Mair</name>
     </developer>
   </developers>
 
   <scm>
-    <connection>scm:git:git://github.com/jenkinsci/lastfailureversioncolumn-plugin.git</connection>
-    <developerConnection>scm:git:git@github.com:jenkinsci/lastfailureversioncolumn-plugin.git</developerConnection>
-    <url>https://github.com/jenkinsci/lastfailureversioncolumn-plugin</url>
+    <connection>scm:git:git://github.com/jenkinsci/uptime-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:jenkinsci/uptime-plugin.git</developerConnection>
+    <url>https://github.com/jenkinsci/uptime-plugin</url>
   </scm>
 
   <repositories>
@@ -64,17 +58,15 @@
     </repository>
     <site>
       <id>github-project-site</id>
-      <url>gitsite:git@github.com/jenkinsci/lastfailureversioncolumn-plugin</url>
+      <url>gitsite:git@github.com/jenkinsci/uptime-plugin</url>
     </site>
   </distributionManagement>
 
   <properties>
-    <!-- http://docs.codehaus.org/display/MAVENUSER/POM+Element+for+Source+File+Encoding -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <compileTarget>1.6</compileTarget>
     <!-- define all plugin versions -->
     <maven.version>3.0.1</maven.version>
-    <maven-antrun-plugin.version>1.6</maven-antrun-plugin.version>
     <maven-assembly-plugin.version>2.2</maven-assembly-plugin.version>
     <maven-changelog-plugin.version>2.2</maven-changelog-plugin.version>
     <maven-checkstyle-plugin.version>2.6</maven-checkstyle-plugin.version>
@@ -82,7 +74,6 @@
     <maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
     <maven-dependency-plugin.version>2.1</maven-dependency-plugin.version>
     <maven-deploy-plugin.version>2.5</maven-deploy-plugin.version>
-    <maven-doap-plugin.version>1.0</maven-doap-plugin.version>
     <maven-eclipse-plugin.version>2.8</maven-eclipse-plugin.version>
     <maven-enforcer-plugin.version>1.0</maven-enforcer-plugin.version>
     <maven-help-plugin.version>2.1.1</maven-help-plugin.version>
@@ -90,7 +81,6 @@
     <maven-javadoc-plugin.version>2.7</maven-javadoc-plugin.version>
     <maven-jar-plugin.version>2.3.1</maven-jar-plugin.version>
     <maven-jetty-plugin.version>6.1.26</maven-jetty-plugin.version>
-    <maven-jxr-plugin.version>2.2</maven-jxr-plugin.version>
     <maven-pmd-plugin.version>2.5</maven-pmd-plugin.version>
     <maven-project-info-reports-plugin.version>2.3.1</maven-project-info-reports-plugin.version>
     <maven-plugin-plugin.version>2.4.3</maven-plugin-plugin.version>
@@ -104,21 +94,13 @@
     <maven-surefire-report-plugin.version>2.7.2</maven-surefire-report-plugin.version>
     <maven-war-plugin.version>2.1.1</maven-war-plugin.version>
     <apt-maven-plugin.version>1.0-alpha-4</apt-maven-plugin.version>
-    <axistools-maven-plugin.version>1.4</axistools-maven-plugin.version>
-    <buildnumber-maven-plugin.version>1.0-beta-4</buildnumber-maven-plugin.version>
-    <build-helper-maven-plugin.version>1.5</build-helper-maven-plugin.version>
-    <cargo-maven2-plugin.version>1.0.5</cargo-maven2-plugin.version>
     <cobertura-maven-plugin.version>2.4</cobertura-maven-plugin.version>
     <exec-maven-plugin.version>1.2</exec-maven-plugin.version>
     <findbugs-maven-plugin.version>2.3.1</findbugs-maven-plugin.version>
-    <gwt-maven-plugin.version>2.1.0-1</gwt-maven-plugin.version>
     <javancss-maven-plugin.version>2.0</javancss-maven-plugin.version>
     <jdepend-maven-plugin.version>2.0-beta-2</jdepend-maven-plugin.version>
-    <openjpa-maven-plugin.version>1.2</openjpa-maven-plugin.version>
-    <taglist-maven-plugin.version>2.4</taglist-maven-plugin.version>
-    <versions-maven-plugin.version>1.2</versions-maven-plugin.version>
-    <xml-maven-plugin.version>1.0-beta-3</xml-maven-plugin.version>
   </properties>
+
 
   <dependencies>
 	 <dependency>
@@ -152,79 +134,10 @@
         <version>0.3.1</version>
       </extension>
     </extensions>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>${maven-clean-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>${maven-compiler-plugin.version}</version>
-          <configuration>
-            <source>${compileSource}</source>
-            <target>${compileTarget}</target>
-            <showDeprecation>true</showDeprecation>
-            <showWarnings>true</showWarnings>
-          </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>${maven-deploy-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-enforcer-plugin</artifactId>
-          <version>${maven-enforcer-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>${maven-install-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>${maven-jar-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-release-plugin</artifactId>
-          <version>${maven-release-plugin.version}</version>
-          <configuration>
-            <allowTimestampedSnapshots>true</allowTimestampedSnapshots>
-            <autoVersionSubmodules>true</autoVersionSubmodules>
-            <goals>clean deploy</goals>
-            <preparationGoals>clean deploy</preparationGoals>
-            <releaseProfiles>release</releaseProfiles>
-          </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-remote-resources-plugin</artifactId>
-          <version>${maven-remote-resources-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>${maven-resources-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>${maven-site-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>${maven-source-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>${maven-surefire-plugin.version}</version>
-          <configuration>
-            <parallel>methods</parallel>
-            <testFailureIgnore>true</testFailureIgnore>
-            <threadCount>4</threadCount>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+    
     <plugins>
     
-            <plugin>
+        <plugin>
             <groupId>org.codehaus.gmaven</groupId>
             <artifactId>gmaven-plugin</artifactId>
             <version>1.4</version>
@@ -266,29 +179,6 @@
             </dependencies>
         </plugin>
     
-      <plugin>
-        <artifactId>maven-doap-plugin</artifactId>
-        <version>${maven-doap-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>site</id>
-            <phase>pre-site</phase>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <doapFile>${project.reporting.outputDirectory}/doap.rdf</doapFile>
-          <asfExtOptions>
-            <included>false</included>
-          </asfExtOptions>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>${maven-site-plugin.version}</version>
-      </plugin>
     </plugins>
   </build>
 
@@ -305,10 +195,6 @@
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>${maven-javadoc-plugin.version}</version>
-      </plugin>
-      <plugin>
-        <artifactId>maven-jxr-plugin</artifactId>
-        <version>${maven-jxr-plugin.version}</version>
       </plugin>
       <plugin>
         <artifactId>maven-pmd-plugin</artifactId>
@@ -360,11 +246,6 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>jdepend-maven-plugin</artifactId>
         <version>${jdepend-maven-plugin.version}</version>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>taglist-maven-plugin</artifactId>
-        <version>${taglist-maven-plugin.version}</version>
       </plugin>
     </plugins>
   </reporting>
