@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .classpath
 .project
 .settings/
@@ -7,3 +8,11 @@ work/
 /run-fast
 /go.bat
 /RunJenkins.bat
+=======
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+>>>>>>> 9710f51edffca3f46a025325a426305e036ac06b
