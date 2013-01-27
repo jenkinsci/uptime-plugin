@@ -105,6 +105,16 @@ class DefaultUptimeServiceTest extends AbstractGroovyTestCase {
 	}
 
 	@Test
+	void getUptimePercentage_RoundsTo100Percent() {
+		def builds =[
+	        createBuild(Result.FAILURE, minutesAgo(158)),
+			createBuild(Result.SUCCESS, hoursAgo(1000*24)) ]	// 1000 days ago
+		Iterator<Run> runs = builds.iterator()
+		
+		assert service.getUptimePercentage(runs) == 1.00
+	}
+
+	@Test
 	void getUptimePercentage_ScaleGreaterThanTwo() {
 		def builds =[
 			createBuild(Result.FAILURE, minutesAgo(1)),

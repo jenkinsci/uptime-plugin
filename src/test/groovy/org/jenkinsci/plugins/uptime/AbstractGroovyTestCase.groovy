@@ -31,7 +31,7 @@ import org.junit.rules.TestName;
 class AbstractGroovyTestCase {
 
 	protected static final String FORMAT = 'mm/dd/yy HH:mm'
-	protected static final MS_PER_MINUTE = 1000 * 60
+	protected static final long MS_PER_MINUTE = 1000 * 60
 	
 	@Rule public TestName testName = new TestName();
 
