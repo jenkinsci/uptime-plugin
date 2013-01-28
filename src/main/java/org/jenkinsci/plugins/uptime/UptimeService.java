@@ -24,9 +24,9 @@
 package org.jenkinsci.plugins.uptime;
 
 import hudson.model.Run;
+import hudson.util.RunList;
 
 import java.math.BigDecimal;
-import java.util.Iterator;
 
 /**
  * Interface for service that provides "uptime" information for a Job. 
@@ -35,5 +35,5 @@ import java.util.Iterator;
  */
 public interface UptimeService {
 
-	public BigDecimal getUptimePercentage(Iterator<Run<?,?>> iterator);
+	public BigDecimal getUptimePercentage(RunList<Run<?, ?>> builds);
 }

@@ -23,14 +23,14 @@
  */
 package org.jenkinsci.plugins.uptime;
 
-import static org.junit.Assert.*;
-import hudson.model.Result;
-import hudson.model.AbstractBuild;
-import hudson.model.AbstractBuild.AbstractRunner;
-import hudson.model.Run;
+import static org.junit.Assert.*
+import hudson.model.AbstractBuild
+import hudson.model.Result
+import hudson.model.Run
+import hudson.util.RunList
 
-import org.junit.Test;
-import org.mockito.Mockito;
+import org.junit.Test
+import org.mockito.Mockito
 
 /**
  * Tests for DefaultUptimeServiceTest
@@ -50,33 +50,29 @@ class DefaultUptimeServiceTest extends AbstractGroovyTestCase {
 	
 	@Test
 	void getUptimePercentage_NoBuilds_Null() {
-		Iterator<Run> runs = [].iterator()
-		assert service.getUptimePercentage(runs) == null
+		assert service.getUptimePercentage(new RunList([])) == null
 	}
 
 	@Test
 	void getUptimePercentage_OneBuild_Success_100_Percent() {
 		Run build = createBuild(Result.SUCCESS, hoursAgo(1))
-		Iterator<Run> runs = [build].iterator()
 		
-		assert service.getUptimePercentage(runs) == 1.0
+		assert service.getUptimePercentage(RunList.fromRuns([build])) == 1.0
 	}
 
 	@Test
 	void getUptimePercentage_OneBuild_Failure_0_Percent() {
 		Run build = createBuild(Result.FAILURE, hoursAgo(1))
-		Iterator<Run> runs = [build].iterator()
 		
-		assert service.getUptimePercentage(runs) == 0.0
+		assert service.getUptimePercentage(RunList.fromRuns([build])) == 0.0
 	}
 
 	@Test
 	void getUptimePercentage_Failure_Then_Success() {
 		Run build1 = createBuild(Result.FAILURE, minutesAgo(10))
 		Run build2 = createBuild(Result.SUCCESS, minutesAgo(9))
-		Iterator<Run> runs = [build2, build1].iterator()
 		
-		assert service.getUptimePercentage(runs) == 0.9
+		assert service.getUptimePercentage(RunList.fromRuns([build2, build1])) == 0.9
 	}
 
 
@@ -84,9 +80,8 @@ class DefaultUptimeServiceTest extends AbstractGroovyTestCase {
 	void getUptimePercentage_Success_Then_Failure() {
 		Run build1 = createBuild(Result.SUCCESS, minutesAgo(100))
 		Run build2 = createBuild(Result.FAILURE, minutesAgo(37))
-		Iterator<Run> runs = [build2, build1].iterator()
 		
-		assert service.getUptimePercentage(runs) == 0.63
+		assert service.getUptimePercentage(RunList.fromRuns([build2, build1])) == 0.63
 	}
 
 	@Test
@@ -99,9 +94,8 @@ class DefaultUptimeServiceTest extends AbstractGroovyTestCase {
 	        createBuild(Result.FAILURE, minutesAgo(91)),
 	        createBuild(Result.FAILURE, minutesAgo(93)),
 			createBuild(Result.FAILURE, minutesAgo(100)) ]
-		Iterator<Run> runs = builds.iterator()
 		
-		assert service.getUptimePercentage(runs) == 0.11
+		assert service.getUptimePercentage(RunList.fromRuns(builds)) == 0.11
 	}
 
 	@Test
@@ -109,9 +103,8 @@ class DefaultUptimeServiceTest extends AbstractGroovyTestCase {
 		def builds =[
 	        createBuild(Result.FAILURE, minutesAgo(158)),
 			createBuild(Result.SUCCESS, hoursAgo(1000*24)) ]	// 1000 days ago
-		Iterator<Run> runs = builds.iterator()
 		
-		assert service.getUptimePercentage(runs) == 1.00
+		assert service.getUptimePercentage(RunList.fromRuns(builds)) == 1.00
 	}
 
 	@Test
@@ -119,9 +112,8 @@ class DefaultUptimeServiceTest extends AbstractGroovyTestCase {
 		def builds =[
 			createBuild(Result.FAILURE, minutesAgo(1)),
 			createBuild(Result.SUCCESS, minutesAgo(3)) ]
-		Iterator<Run> runs = builds.iterator()
 		
-		assert service.getUptimePercentage(runs) == 0.667
+		assert service.getUptimePercentage(RunList.fromRuns(builds)) == 0.667
 	}
 
 

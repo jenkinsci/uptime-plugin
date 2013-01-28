@@ -25,6 +25,7 @@ package org.jenkinsci.plugins.uptime;
 
 import hudson.model.Result;
 import hudson.model.Run;
+import hudson.util.RunList;
 
 import java.math.BigDecimal;
 import java.util.Iterator;
@@ -40,14 +41,14 @@ public class DefaultUptimeService implements UptimeService {
 	 * Calculate the fraction of time that the job (represented by the set of Runs) has been successful
 	 * over the total time since its first Run (build). The times are measured in a granularity of milliseconds.
 	 *
-	 * @param iterator - the Iterator for a collection of Run (build) objects; must not be null, but may be empty
+	 * @param builds - the RunList representing the build history of a project; must not be null, but may be empty
 	 * 
 	 * @return a BigDecimal representing the percentage, with a scale of 3 (i.e., 0.000 to 1.000)
 	 */
 	@Override
-	public BigDecimal getUptimePercentage(Iterator<Run<?,?>> iterator) {
+	public BigDecimal getUptimePercentage(RunList<Run<?, ?>> builds) {
 
-		if (!iterator.hasNext()) {
+		if (builds.isEmpty()) {
 			return null;
 		}
 		
@@ -56,6 +57,7 @@ public class DefaultUptimeService implements UptimeService {
 		long startTime = 0L;
 		long totalFailedMillis = 0L;
 		
+		Iterator<Run<?,?>> iterator = builds.iterator();
         while (iterator.hasNext()) {
 			Run<?,?> run = (Run<?,?>) iterator.next();
 			long runStartTime = run.getTimestamp().getTimeInMillis();

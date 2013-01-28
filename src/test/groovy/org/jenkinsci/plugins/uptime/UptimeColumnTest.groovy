@@ -48,9 +48,8 @@ class UptimeColumnTest extends AbstractGroovyTestCase {
 		Mockito.when(job.getBuilds()).thenReturn(runList)
 		
 		uptimeColumn.uptimeService = [
-			getUptimePercentage:{ iterator ->
-				def buildList = iterator.toList()
-				assert buildList == [build]
+			getUptimePercentage:{ inRunList ->
+				assert inRunList == runList
 				return 0.234 
 			}] as UptimeService
 		

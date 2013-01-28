@@ -50,9 +50,7 @@ public class UptimeColumn extends ListViewColumn {
     public String getShortName(Job job) {
         RunList<Run<?, ?>> builds = job.getBuilds();
         
-        Iterator<Run<?,?>> iterator = builds.iterator();
-        
-        BigDecimal uptimePercentage = uptimeService.getUptimePercentage(iterator); 
+        BigDecimal uptimePercentage = uptimeService.getUptimePercentage(builds); 
         
         return percentageString(uptimePercentage);
     }
