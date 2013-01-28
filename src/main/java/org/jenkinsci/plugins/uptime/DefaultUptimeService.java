@@ -27,7 +27,6 @@ import hudson.model.Result;
 import hudson.model.Run;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.Iterator;
 
 /**
@@ -40,6 +39,8 @@ public class DefaultUptimeService implements UptimeService {
 	/**
 	 * Calculate the fraction of time that the job (represented by the set of Runs) has been successful
 	 * over the total time since its first Run (build). The times are measured in a granularity of milliseconds.
+	 *
+	 * @param iterator - the Iterator for a collection of Run (build) objects; must not be null, but may be empty
 	 * 
 	 * @return a BigDecimal representing the percentage, with a scale of 3 (i.e., 0.000 to 1.000)
 	 */
@@ -58,7 +59,6 @@ public class DefaultUptimeService implements UptimeService {
         while (iterator.hasNext()) {
 			Run<?,?> run = (Run<?,?>) iterator.next();
 			long runStartTime = run.getTimestamp().getTimeInMillis();
-			System.out.println("Run: " + run + " runStartTime=" + new Date(runStartTime) + " result=" + run.getResult());
 
 			// Always overwrite with oldest build so far
 			startTime = runStartTime;
