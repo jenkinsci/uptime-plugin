@@ -1,4 +1,7 @@
-uptime-plugin
-=============
+Jenkins Uptime Plugin
+=====================
 
-Initial drop of Jenkins uptime plugin
+Adds an "Uptime" column in the list view that shows the percentage of time that a job has been building 
+successfully since its first build.
+
+https://github.com/jenkinsci/uptime-plugin
