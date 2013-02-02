@@ -14,7 +14,7 @@
   <packaging>hpi</packaging>
 
   <name>Uptime</name>
-  <url>TBD</url>
+  <url>https://wiki.jenkins-ci.org/display/JENKINS/Uptime+Plugin</url>
 
   <licenses>
     <license>
@@ -56,10 +56,6 @@
       <id>java.net-m2-repository</id>
       <url>http://maven.jenkins-ci.org/content/repositories/releases/</url>
     </repository>
-    <site>
-      <id>github-project-site</id>
-      <url>gitsite:git@github.com/jenkinsci/uptime-plugin</url>
-    </site>
   </distributionManagement>
 
   <dependencies>
