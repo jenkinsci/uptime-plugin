@@ -34,7 +34,7 @@
   <scm>
     <connection>scm:git:git://github.com/jenkinsci/uptime-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/uptime-plugin.git</developerConnection>
-    <url>https://github.com/jenkinsci/uptime-plugin</url>
+    <url>http://github.com/jenkinsci/uptime-plugin</url>
   </scm>
 
   <repositories>
