@@ -38,6 +38,7 @@
 		<url>https://github.com/jenkinsci/uptime-plugin</url>
 	</scm>
 
+
 	<repositories>
 		<repository>
 			<id>repo.jenkins-ci.org</id>
